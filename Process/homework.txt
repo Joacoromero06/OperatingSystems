@@ -1,0 +1,14 @@
+Questions
+1. Write a program that calls fork(). Before calling fork(), have the
+main process access a variable (e.g., x) and set its value to some-
+thing (e.g., 100). What value is the variable in the child process?
+What happens to the variable when both the child and parent change
+the value of x?
+
+RTA: NO happens nothing, both process have its same memory space and prior variables of fork doesnt seems changed. In any execution path. About posterior variables declared of fork is the same.
+
+2. Write a program that opens a file (with the open() system call)
+and then calls fork() to create a new process. Can both the child
+and parent access the file descriptor returned by open()? What
+happens when they are writing to the file concurrently, i.e., at the
+same time?

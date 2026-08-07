@@ -1,0 +1,4 @@
+some lorem ipsum text
+for test opening this file via open syscall with prior a fork syscall
+Does the child and parent share the filedescriptor?
+What happens whit concurrently writting?
