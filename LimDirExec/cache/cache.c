@@ -14,7 +14,7 @@ int main(int argc, char* argv[]){
   char* fn;
   switch(argc){
   case 0: exit(1);
-  case 1: fn = "cacheBenchmark.csv"; break;
+  case 1: fn = "benchmark.csv"; break;
   default: fn = argv[1];
   }
   FILE* f = fopen(fn, "w");
@@ -22,7 +22,7 @@ int main(int argc, char* argv[]){
   fprintf(f, "stride,strideInBytes,timeSeconds,iterations,iterationRatioSeconds\n");
 
   stride_ant = stride; // x0 x1 = 1, 1
-  while (stride <= 12000){
+  while (stride <= 1000){
     double time = test(stride);
     int iterations = (int) (N/stride);
     printf("Stride=%d\nTime taken 64MB (%lf)s\nN° iteration: %d\n\n", stride, time, iterations);

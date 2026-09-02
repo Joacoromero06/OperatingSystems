@@ -4,6 +4,19 @@ import matplotlib.pyplot as plt
 df = pd.read_csv("benchmark.csv")
 print(df["iterations"])
 
-fig = plt.figure()
-plt.plot(df["stride"], df["timeSeconds"])
-plt.savefig(fig)
+fig, axs = plt.subplots(2,3, figsize=(18,8))
+axes = axs.flatten()
+
+def plotXstride(yname, idx):
+    axes[idx].plot(df["stride"], df[yname], label=f'{yname}(stride)')
+    axes[idx].set_xlabel("stride")
+    axes[idx].set_ylabel(yname)
+    axes[idx].set_title("evolution of {yname} for stride variable")
+    axes[idx].legend()
+
+for i, yname in enumerate(df.columns):
+    if yname != "stride":
+        plotXstride(yname, i)
+
+plt.tight_layout()
+fig.savefig("figure")
