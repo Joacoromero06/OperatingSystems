@@ -66,8 +66,8 @@ void free_region(Region* r);
   #include <unistd.h>
   #include <sys/mman.h>
   
-  Region* new_region(size_t n){
-    size_t bsize = sizeof(Region) + sizeof(uintptr_t) * n;
+  Region* new_region(size_t capacity){
+    size_t bsize = sizeof(Region) + sizeof(uintptr_t) * capacity;
     Region* r = mmap(NULL, bsize, PROT_READ | PROT_WRITE,  MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
     ASSERT_REGION(r != MAP_FAILED);
     r->next = NULL;
@@ -80,6 +80,28 @@ void free_region(Region* r);
     ASSERT_REGION(ret == 0);
   }
 
+#define TWO_PAGES 4096
+void* arena_alloc(Arena* a, size_t bsize)
+{
+#define p_WSIZE_ENTER(a, wsize) (a->end->count + wsize <= a->end->capacity)
+  size_t wsize = (bsize + sizeof(uintptr_t) - 1) / sizeof(uintptr_t);
+
+  if (a->end == NULL)
+  {
+    assert(a->begin == NULL);
+    if (wsize < TWO_PAGES)
+    {
+      wsize = TWO_PAGES;
+    }
+    a->end = new_region(wsize);
+    a->begin = a->end;
+  }
+
+  while (!p_WSIZE_ENTER(a, wsize) && a->end->next != NULL)
+  {
+
+  }
+}
 //#else 
 //#error "Arena Backend no conocido"
 //#endif
